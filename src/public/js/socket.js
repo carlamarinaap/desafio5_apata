@@ -20,7 +20,7 @@ button.addEventListener("click", (e) => {
 socket.on("card", (data) => {
   const allCArds = data.map((prod) => {
     return `
-    <div class="card" style="width: 18rem;">
+    <div class="card m-1 bg-light" style="width: 18rem;">
     <div class="card-body">
     <h5 class="card-title">${prod.title}</h5>
     <p class="card-text">${prod.description}</p>
