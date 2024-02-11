@@ -8,7 +8,6 @@ const mm = new MessageManager();
 
 router.get("/", async (req, res) => {
   const products = await pm.getProducts();
-  console.log(products);
   res.render("home", { products });
 });
 
