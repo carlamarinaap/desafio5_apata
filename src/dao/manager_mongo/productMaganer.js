@@ -65,6 +65,7 @@ class ProductManager {
 
   deleteProduct = async (productId) => {
     try {
+      console.log(productId);
       const product = await productModel.findById(productId);
       await productModel.deleteOne({ _id: productId });
       return product;

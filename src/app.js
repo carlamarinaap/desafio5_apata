@@ -50,6 +50,12 @@ socketServer.on("connection", (socket) => {
     const products = await pm.getProducts();
     socketServer.emit("card", products);
   });
+  socket.on("deleteProduct", async (data) => {
+    await pm.deleteProduct(data);
+    const products = await pm.getProducts();
+    socketServer.emit("card", products);
+  });
+
   socket.on("login", async (data) => {
     const messages = await mm.getMessages();
     socketServer.emit("chat", messages);
