@@ -61,6 +61,7 @@ socketServer.on("connection", (socket) => {
     socketServer.emit("chat", messages);
   });
   socket.on("newMessage", async (data) => {
+    console.log(`Desde app.js: ${JSON.stringify(data)}`);
     await mm.addMessage(data);
     const messages = await mm.getMessages();
     socketServer.emit("chat", messages);

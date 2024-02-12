@@ -1,12 +1,12 @@
 /* --------------CAPA DE NEGOCIO---------------- */
 
-import { cartModel } from "../models/cart.model.js";
-import { productModel } from "../models/product.model.js";
+import CartSchema from "../models/cart.schema.js";
+import ProductSchema from "../models/product.schema.js";
 
 class CartsManager {
   getCarts = async () => {
     try {
-      let colectionJSON = await cartModel.find();
+      let colectionJSON = await CartSchema.find();
       return colectionJSON;
     } catch (error) {
       throw new Error(`Hubo un error obteniendo los carritos: ${error.message}`);
@@ -15,7 +15,7 @@ class CartsManager {
 
   addCart = async () => {
     try {
-      await productModel.insertMany({ products: [] });
+      await ProductSchema.insertMany({ products: [] });
     } catch (error) {
       throw new Error(`Error al agregar producto: ${error.message}`);
     }
@@ -23,7 +23,7 @@ class CartsManager {
 
   getCartById = async (cartId) => {
     try {
-      return await cartModel.findById(cartId);
+      return await CartSchema.findById(cartId);
     } catch (error) {
       throw new Error(`Error al encontrar el carrito`);
     }
@@ -31,30 +31,30 @@ class CartsManager {
 
   updateCart = async (cartId, productId) => {
     try {
-      await cartModel.findById(cartId);
+      await CartSchema.findById(cartId);
     } catch (error) {
       throw new Error(`No se encontró el carrito a actualizar`);
     }
     try {
-      await productModel.findById(productId);
+      await ProductSchema.findById(productId);
     } catch (error) {
       throw new Error(`No se encontró el producto a agregar`);
     }
     try {
-      let cartSelected = await cartModel.findById(cartId);
+      let cartSelected = await CartSchema.findById(cartId);
       let productIndex = cartSelected.products.findIndex(
         (prod) => prod.product === productId
       );
 
       if (productIndex !== -1) {
         // Si el producto ya está en el carrito, incrementa su cantidad
-        await cartModel.updateOne(
+        await CartSchema.updateOne(
           { _id: cartId, "products.product": productId },
           { $inc: { "products.$.quantity": 1 } }
         );
       } else {
         // Si el producto no está en el carrito, lo agrega
-        await cartModel.updateOne(
+        await CartSchema.updateOne(
           { _id: cartId },
           { $push: { products: { product: productId, quantity: 1 } } }
         );

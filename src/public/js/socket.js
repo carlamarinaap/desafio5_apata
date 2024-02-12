@@ -3,6 +3,7 @@ const socket = io();
 const form = document.getElementById("productForm");
 const productList = document.getElementById("productList");
 const addProd = document.getElementById("addProd");
+const errorBox = document.getElementById("errorBox");
 // const deleteProd = document.getElementById("deleteProd");
 
 const deleteProd = (prod) => {
@@ -20,7 +21,7 @@ const deleteProd = (prod) => {
         text: "El producto fue eliminado con éxito",
         icon: "success",
       }).then(() => {
-        window.location.reload();
+        window.location.href = "/realTimeProducts";
       });
     }
   });
@@ -28,15 +29,22 @@ const deleteProd = (prod) => {
 
 addProd.addEventListener("click", (e) => {
   e.preventDefault();
+  errorBox.innerText = "";
   const title = document.getElementById("title").value;
   const description = document.getElementById("description").value;
   const price = document.getElementById("price").value;
   const code = document.getElementById("code").value;
   const stock = document.getElementById("stock").value;
   const category = document.getElementById("category").value;
-  const newProduct = { title, description, price, code, stock, category };
+  if (!title || !description || !price || !code || !stock || !category) {
+    errorBox.innerText = "Debe completar todos los campos";
+  } else {
+    const newProduct = { title, description, price, code, stock, category };
 
-  socket.emit("newProduct", newProduct);
+    socket.emit("newProduct", newProduct);
+
+    window.location.href = "/realTimeProducts";
+  }
 });
 
 socket.on("card", (data) => {
@@ -47,7 +55,7 @@ socket.on("card", (data) => {
         <h5 class="card-title">${prod.title}</h5>
         <p class="card-text">${prod.description}</p>
         <p class="card-text">$ ${prod.price}</p>
-        <button onclick="deleteProd('{{this.id}}')" class="btn btn-danger">Eliminar</button>
+        <button onclick="deleteProd('${this.id}')" class="btn btn-danger">Eliminar</button>
       </div>
     </div>
     `;

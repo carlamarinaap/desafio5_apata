@@ -1,9 +1,9 @@
-import { messageModel } from "../models/message.model.js";
+import MessageSchema from "../models/message.schema.js";
 
 class MessageManager {
   getMessages = async () => {
     try {
-      return await messageModel.find();
+      return await MessageSchema.find();
     } catch (error) {
       throw new Error(`Hubo un error obteniendo los mensajes`);
     }
@@ -11,14 +11,14 @@ class MessageManager {
 
   addMessage = async (message) => {
     try {
-      await messageModel.insertMany(message);
+      await MessageSchema.create(message);
     } catch (error) {
       throw new Error(`Hubo un error cargando el mensaje`);
     }
   };
   clearChat = async () => {
     try {
-      await messageModel.deleteMany();
+      await MessageSchema.deleteMany();
     } catch (error) {
       throw new Error(`Hubo un error eliminando el chat`);
     }
