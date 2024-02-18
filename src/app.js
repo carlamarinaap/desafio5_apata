@@ -16,7 +16,13 @@ const app = express();
 const httpServer = app.listen(8080, () => console.log("Server running in port 8080"));
 const socketServer = new Server(httpServer);
 
-mongoose.connect("mongodb://localhost:27017/ecommerce");
+// mongoose.connect(
+//   "mongodb+srv://carlaapata:Facundo1990@cluster0.ppztezy.mongodb.net/?retryWrites=true&w=majority"
+// );
+
+mongoose.connect(
+  "mongodb+srv://carlaapata:Facundo1990@cluster0.ppztezy.mongodb.net/ecommerce?retryWrites=true&w=majority"
+);
 
 app.use(express.urlencoded({ extended: true }));
 

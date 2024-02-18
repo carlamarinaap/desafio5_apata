@@ -23,10 +23,10 @@ router.get("/:cid", async (req, res) => {
   }
 });
 
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
   try {
-    cm.addCart();
-    res.status(200).send("Se agregó correctamente el carrito");
+    await cm.addCart();
+    res.status(200).send("El carrito se agregó correctamente");
   } catch (error) {
     res.status(500).send(error.message);
   }
